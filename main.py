@@ -4,21 +4,21 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from pypdf import PdfReader
 
-# --- KONFIGURATION ---
-# Lädt Umgebungsvariablen für Sicherheit (Google-Standard)
+# --- CONFIGURATION ---
+# Load environment variables for security (Industry Standard)
 load_dotenv()
 
-# Prüfen, ob der API Key existiert
+# Check for API Key
 if not os.getenv("OPENAI_API_KEY"):
-    print("FATAL ERROR: Kein API-Key gefunden. Bitte .env Datei prüfen.")
+    print("FATAL ERROR: No API key found. Please check your .env file.")
     sys.exit(1)
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def extract_text_from_pdf(pdf_path: str) -> str:
     """
-    Liest Text professionell aus PDF-Dateien.
-    Ignoriert leere Seiten und fängt Lesefehler ab.
+    Extracts text from PDF files with error handling.
+    Skips empty pages and manages reading errors.
     """
     try:
         reader = PdfReader(pdf_path)
@@ -28,21 +28,21 @@ def extract_text_from_pdf(pdf_path: str) -> str:
             if content:
                 text.append(content)
             else:
-                print(f"Warnung: Seite {page_num + 1} ist leer oder nicht lesbar.")
+                print(f"Warning: Page {page_num + 1} is empty or unreadable.")
         return "\n".join(text)
     except Exception as e:
-        print(f"Error beim PDF-Lesen: {e}")
+        print(f"Error reading PDF: {e}")
         return None
 
 def ask_business_bot(context: str, question: str) -> str:
     """
-    Core-Logik: Verbindet Dokumenten-Wissen mit GPT-4o Intelligenz.
+    Core Logic: RAG (Retrieval-Augmented Generation) using GPT-4o.
     """
     system_prompt = (
-        "Du bist ein hochspezialisierter Business-Analyst. "
-        "Deine Aufgabe ist es, Fragen basierend auf dem folgenden Dokumenten-Kontext präzise zu beantworten. "
-        "Wenn die Antwort nicht im Text steht, sage höflich, dass das Dokument dazu keine Infos enthält. "
-        "Antworte professionell und auf den Punkt."
+        "You are a highly specialized Business Analyst. "
+        "Your task is to answer questions precisely based on the provided document context. "
+        "If the answer is not in the text, politely state that the document does not contain this information. "
+        "Keep answers professional and concise."
     )
     
     try:
@@ -50,7 +50,7 @@ def ask_business_bot(context: str, question: str) -> str:
             model="gpt-4o",
             messages=[
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": f"KONTEXT:\n{context}\n\nFRAGE DES KUNDEN:\n{question}"}
+                {"role": "user", "content": f"CONTEXT:\n{context}\n\nUSER QUESTION:\n{question}"}
             ]
         )
         return response.choices[0].message.content
@@ -63,36 +63,37 @@ def main():
     print("   Enterprise Edition - Ready for Analysis")
     print("="*50 + "\n")
 
-    pdf_file = "daten.pdf"
+    # Expecting a file named 'data.pdf'
+    pdf_file = "data.pdf"
 
     if not os.path.exists(pdf_file):
-        print(f"❌ Setup-Fehler: Datei '{pdf_file}' fehlt im Verzeichnis.")
-        print("Bitte PDF einfügen und Neustarten.")
+        print(f"❌ Setup Error: File '{pdf_file}' missing in directory.")
+        print("Please place a PDF file named 'data.pdf' in this folder and restart.")
         return
 
-    print(f"📂 Lade Dokument: {pdf_file}...")
+    print(f"📂 Loading document: {pdf_file}...")
     document_content = extract_text_from_pdf(pdf_file)
 
     if not document_content:
-        print("❌ Abbruch: Dokument konnte nicht gelesen werden.")
+        print("❌ Aborted: Could not read document.")
         return
 
-    print("✅ System bereit. Integrierte KI: GPT-4o.\n")
+    print("✅ System Ready. Integrated Model: GPT-4o.\n")
 
     while True:
         try:
-            user_input = input("Frage stellen (oder 'exit'): ")
-            if user_input.lower() in ['exit', 'quit', 'ende']:
-                print("System wird heruntergefahren...")
+            user_input = input("Enter question (or 'exit'): ")
+            if user_input.lower() in ['exit', 'quit', 'stop']:
+                print("Shutting down system...")
                 break
             
-            print("⏳ Analysiere...")
+            print("⏳ Analyzing...")
             answer = ask_business_bot(document_content, user_input)
-            print(f"\n🤖 ANTWORT:\n{answer}\n")
+            print(f"\n🤖 ANSWER:\n{answer}\n")
             print("-" * 30)
             
         except KeyboardInterrupt:
-            print("\nAbbruch durch Benutzer.")
+            print("\nAborted by user.")
             break
 
 if __name__ == "__main__":
