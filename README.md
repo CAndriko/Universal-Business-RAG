@@ -1,3 +1,5 @@
+[Deutsche Version verfügbar](README_DE.md)
+
 # ⚡ AI Business Intelligence Engine
 
 A professional-grade RAG (Retrieval-Augmented Generation) framework designed to transform static company data into interactive AI knowledge bases.
