@@ -24,7 +24,7 @@ Ein hochprofessionelles Framework für Retrieval-Augmented Generation (RAG), das
 4. **Start:** Starten Sie die Engine mit `python main.py`.
 
 ## 🛡 Sicherheit & Compliance
-Dieses Framework wurde mit demselben Fokus auf Sicherheit entwickelt wie unsere Projekte im Bereich „AI Security Watcher“. Ich garantiere eine saubere Trennung von Code und Daten sowie höchste Standards bei der API-Sicherheit.
+Dieses Framework wurde mit demselben Fokus auf Sicherheit entwickelt wie meine Projekte im Bereich „AI Security Watcher“. Ich garantiere eine saubere Trennung von Code und Daten sowie höchste Standards bei der API-Sicherheit.
 
 ---
 *Entwickelt nach Google-Level-Standards für anspruchsvolle Automatisierungsprojekte.*
