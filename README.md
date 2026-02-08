@@ -23,7 +23,7 @@ A professional-grade RAG (Retrieval-Augmented Generation) framework designed to 
 4. **Execution:** Start the engine with `python main.py`.
 
 ## 🛡 Security & Compliance
-This framework is built with the same security-first mindset as our 'AI Security Watcher' projects, ensuring your data remains protected and audits are seamless.
+This framework is built with the same security-first mindset as my 'AI Security Watcher' projects, ensuring your data remains protected and audits are seamless.
 
 ---
 *Coded to Google-level standards for high-ticket automation clients.*
