@@ -1,6 +1,6 @@
 [English version available](README.md)
 
-# ⚡ AI Business Intelligence Engine (RAG-System)
+#  AI Business Intelligence Engine (RAG-System)
 
 Ein hochprofessionelles Framework für Retrieval-Augmented Generation (RAG), das darauf ausgelegt ist, statische Unternehmensdaten in interaktive KI-Wissensdatenbanken zu verwandeln.
 
